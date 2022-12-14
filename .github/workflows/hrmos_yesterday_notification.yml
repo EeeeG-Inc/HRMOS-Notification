@@ -1,0 +1,31 @@
+name: hrmos_yesterday_notification
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 22:00 (UTC) -> 毎日 8:00 (JST)
+    - cron: "0 22 * * *"
+
+jobs:
+  hrmos_yesterday_notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+          architecture: "x64"
+      - name: Get Python version
+        run: python -V
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run asana_weekly_todo_notification_for_slack.py
+        env:
+          HRMOS_SECRET_KEY: ${{ secrets.HRMOS_SECRET_KEY }}
+          WEBHOOK_URL_DEFAULT: ${{ secrets.WEBHOOK_URL_DEFAULT }}
+          WEBHOOK_URL_HRMOS_WEEKLY_WORKLOAD_NOTIFICATION_FOR_NOTION: ${{ secrets.WEBHOOK_URL_HRMOS_WEEKLY_WORKLOAD_NOTIFICATION_FOR_NOTION }}
+          WEBHOOK_URL_HRMOS_YESTERDAY_NOTIFICATION: ${{ secrets.WEBHOOK_URL_HRMOS_YESTERDAY_NOTIFICATION }}
+          COMPANY_NAME: ${{ secrets.COMPANY_NAME }}
+          IS_DEBUG: ${{ secrets.IS_DEBUG }}
+        run: python hrmos_yesterday_notification.py
