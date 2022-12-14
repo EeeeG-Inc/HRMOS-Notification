@@ -41,7 +41,7 @@ class HrmosWeeklyWorkloadNotificationForNotion:
         text = f"{str_this_month} の勤怠情報\n\n"
         for user_id, work_output in work_output_months.items():
             text += hrmos.get_str_this_month_work_output(work_output, users[user_id], str_today)
-            hrmos.slack_post_via_webhook(text, 'HRMOS This Month', ':hourglass_flowing_sand:', hrmos.config.webhook_urls['webhook_url_hrmos_yesterday_notification'])
+            hrmos.slack_post_via_webhook(text, 'HRMOS This Month', ':hourglass_flowing_sand:', hrmos.config.webhook_urls['webhook_url_hrmos_weekly_workload_notification_for_notion'])
             text = ''
 
         print('Slack Post About HRMOS This Month Done!')
