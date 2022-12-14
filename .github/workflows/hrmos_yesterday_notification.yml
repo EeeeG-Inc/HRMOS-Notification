@@ -20,7 +20,7 @@ jobs:
         run: python -V
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run asana_weekly_todo_notification_for_slack.py
+      - name: Run hrmos_yesterday_notification.py
         env:
           HRMOS_SECRET_KEY: ${{ secrets.HRMOS_SECRET_KEY }}
           WEBHOOK_URL_DEFAULT: ${{ secrets.WEBHOOK_URL_DEFAULT }}
