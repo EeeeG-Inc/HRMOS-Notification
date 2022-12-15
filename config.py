@@ -3,7 +3,6 @@ import os
 
 load_dotenv()
 
-
 class Config():
     def __init__(self):
         is_debug = os.getenv('IS_DEBUG')

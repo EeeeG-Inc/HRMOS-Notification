@@ -11,7 +11,7 @@ class Hrmos():
     """
     HRMOS の API Secret Key を利用して Basic 認証を行い、有効期限が 1 日に限定された API Token を取得する
     """
-    def get_authentication_token(self):
+    def get_authentication_token(self) -> dict:
         return requests.get(
             self.config.END_POINT + '/v1/authentication/token',
             headers={
@@ -23,7 +23,7 @@ class Hrmos():
     """
     会社に所属する全ユーザを取得
     """
-    def get_users(self, token: str):
+    def get_users(self, token: str) -> dict:
         return requests.get(
             self.config.END_POINT + '/v1/users',
             headers={
@@ -35,7 +35,7 @@ class Hrmos():
     """
     指定日による、全ユーザ日次勤怠データ (1日分) を取得
     """
-    def get_work_outputs_daily(self, token: str, day: str):
+    def get_work_outputs_daily(self, token: str, day: str) -> dict:
         return requests.get(
             self.config.END_POINT + '/v1/work_outputs/daily/' + day,
             headers={
@@ -47,7 +47,7 @@ class Hrmos():
     """
     指定月による、全ユーザ日次勤怠データ (存在する全ての日付) を取得
     """
-    def get_work_outputs_monthly(self, token: str, month: str):
+    def get_work_outputs_monthly(self, token: str, month: str) -> dict:
         return requests.get(
             self.config.END_POINT + '/v1/work_outputs/monthly/' + month,
             headers={
@@ -59,7 +59,7 @@ class Hrmos():
     """
     指定月による、全ユーザ月次レポートを取得
     """
-    def get_work_output_months_monthly(self, token: str, month: str):
+    def get_work_output_months_monthly(self, token: str, month: str) -> dict:
         return requests.get(
             self.config.END_POINT + '/v1/work_output_months/monthly/' + month,
             headers={
@@ -71,7 +71,7 @@ class Hrmos():
     """
     Slack 投稿用のテキストを作成 (yesterday)
     """
-    def get_str_yesterday_work_output(self, work_output):
+    def get_str_yesterday_work_output(self, work_output: dict) -> str:
         start_at = work_output["start_at"] if work_output["start_at"] else '[No Data]'
         end_at = work_output["end_at"] if work_output["end_at"] else '[No Data]'
         total_working_hours = work_output["total_working_hours"] if work_output["total_working_hours"] else '[No Data]'
@@ -84,7 +84,7 @@ class Hrmos():
     """
     Slack 投稿用のテキストを作成 (month)
     """
-    def get_str_this_month_work_output(self, work_output, user, today):
+    def get_str_this_month_work_output(self, work_output: dict, user: dict, today: str) -> str:
         full_name = user["last_name"] + user["first_name"]
         total_working_hours = work_output["total_working_hours"] if work_output["total_working_hours"] else '[No Data]'
         over_work_time = work_output["over_work_time"] if work_output["over_work_time"] else '[No Data]'
@@ -100,7 +100,7 @@ class Hrmos():
     """
     Slack チャンネルに Webhook で Post する
     """
-    def slack_post_via_webhook(self, text, bot_name, bot_emoji, webhook_url):
+    def slack_post_via_webhook(self, text: str, bot_name: str, bot_emoji: str, webhook_url: str) -> None:
         if self.config.is_debug:
             webhook_url = self.config.webhook_urls['default']
 
