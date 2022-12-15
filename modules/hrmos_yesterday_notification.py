@@ -16,16 +16,16 @@ class HrmosYesterdayNotification:
             self.str_jst_yesterday
         )
 
-    '''
+    """
     API Token を取得する
-    '''
+    """
     def __get_authentication_token(self) -> str:
         auth = self.hrmos.get_authentication_token()
         return auth['token']
 
-    '''
+    """
     昨日の全ユーザ日次勤怠データを取得
-    '''
+    """
     def __get_work_outputs_daily(self, token: str, str_jst_yesterday: str) -> dict:
         work_outputs = {}
         for work_output in self.hrmos.get_work_outputs_daily(token, str_jst_yesterday):
@@ -34,9 +34,9 @@ class HrmosYesterdayNotification:
             work_outputs[work_output['user_id']] = work_output
         return work_outputs
 
-    '''
+    """
     Slack 通知 (一回)
-    '''
+    """
     def __slack_post_via_webhook(self, work_outputs: dict, str_jst_yesterday: str) -> None:
         text = f"{str_jst_yesterday} の勤怠情報\n\n"
         for user_id, work_output in work_outputs.items():

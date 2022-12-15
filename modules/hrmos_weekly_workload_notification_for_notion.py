@@ -18,16 +18,16 @@ class HrmosWeeklyWorkloadNotificationForNotion:
             self.jst_today.strftime("%Y-%m-%d")
         )
 
-    '''
+    """
     API Token を取得する
-    '''
+    """
     def __get_authentication_token(self) -> str:
         auth = self.hrmos.get_authentication_token()
         return auth['token']
 
-    '''
+    """
     ユーザ全員を取得
-    '''
+    """
     def __get_users(self, token: str) -> dict:
         users = {}
         for user in self.hrmos.get_users(token):
@@ -36,9 +36,9 @@ class HrmosWeeklyWorkloadNotificationForNotion:
             users[user['id']] = user
         return users
 
-    '''
+    """
     今月の全ユーザ月次レポートを取得
-    '''
+    """
     def __get_work_output_months_monthly(self, token: str, str_this_month: str) -> dict:
         work_output_months = {}
         for work_output_month in self.hrmos.get_work_output_months_monthly(token, str_this_month):
@@ -47,9 +47,9 @@ class HrmosWeeklyWorkloadNotificationForNotion:
             work_output_months[work_output_month['user_id']] = work_output_month
         return work_output_months
 
-    '''
+    """
     Slack 通知 (人数分)
-    '''
+    """
     def __slack_post_via_webhook(self, work_output_months: dict, users: dict, str_this_month: str, str_jst_today: str) -> None:
         text = f"{str_this_month} の勤怠情報\n\n"
         for user_id, work_output in work_output_months.items():

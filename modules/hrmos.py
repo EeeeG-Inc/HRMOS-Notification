@@ -108,6 +108,5 @@ class Hrmos():
             'text': text,
             'username': bot_name,
             'icon_emoji': bot_emoji,
-            # ポストされるメンションの有効化
             'link_names': 1,
         }))
