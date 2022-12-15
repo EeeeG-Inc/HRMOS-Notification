@@ -1,5 +1,6 @@
 from hrmos import Hrmos
-from datetime import datetime, timedelta
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 class HrmosWeeklyWorkloadNotificationForNotion:
     def __init__(self):
@@ -29,9 +30,9 @@ class HrmosWeeklyWorkloadNotificationForNotion:
 
         # 今月の全ユーザ日次勤怠データを取得
         work_output_months = {}
-        today = datetime.now()
-        str_today = today.strftime('%Y-%m-%d')
-        str_this_month = today.strftime('%Y-%m')
+        jst_today = datetime.now(ZoneInfo("Asia/Tokyo"))
+        str_jst_today = jst_today.strftime("%Y-%m-%d")
+        str_this_month = jst_today.strftime('%Y-%m')
         for work_output_month in hrmos.get_work_output_months_monthly(token, str_this_month):
             if work_output_month['user_id'] in self.user_black_list:
                 continue
@@ -40,7 +41,7 @@ class HrmosWeeklyWorkloadNotificationForNotion:
         # Slack 通知
         text = f"{str_this_month} の勤怠情報\n\n"
         for user_id, work_output in work_output_months.items():
-            text += hrmos.get_str_this_month_work_output(work_output, users[user_id], str_today)
+            text += hrmos.get_str_this_month_work_output(work_output, users[user_id], str_jst_today)
             hrmos.slack_post_via_webhook(text, 'HRMOS This Month', ':hourglass_flowing_sand:', hrmos.config.webhook_urls['webhook_url_hrmos_weekly_workload_notification_for_notion'])
             text = ''
 
