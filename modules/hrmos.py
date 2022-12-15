@@ -1,4 +1,4 @@
-from config import Config
+from modules.config import Config
 import json
 from pprint import pprint
 import requests
