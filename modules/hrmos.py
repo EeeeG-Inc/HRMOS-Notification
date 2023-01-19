@@ -88,12 +88,13 @@ class Hrmos():
         full_name = user["last_name"] + user["first_name"]
         total_working_hours = work_output["total_working_hours"] if work_output["total_working_hours"] else '[No Data]'
         over_work_time = work_output["over_work_time"] if work_output["over_work_time"] else '[No Data]'
+        total_late_hours = work_output["total_late_hours"] if work_output["total_late_hours"] else '[No Data]'
 
         text = f'■ {full_name}\n' + \
             f'```\n' + \
-            f'|Name|Date|稼働時間|残業時間|残業理由|\n' + \
-            f'|:-|:-|:-|:-|:-|\n' + \
-            f'|{full_name}|{today}|{total_working_hours}|{over_work_time}||\n' + \
+            f'|Name|Date|稼働時間|不足時間|残業時間|残業理由|\n' + \
+            f'|:-|:-|:-|:-|:-|:-|\n' + \
+            f'|{full_name}|{today}|{total_working_hours}|{total_late_hours}|{over_work_time}||\n' + \
             f'```\n'
         return text
 
